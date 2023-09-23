@@ -34,6 +34,7 @@ defmodule Undi.MixProject do
     [
       
       # ADDITIONAL PACKAGES
+      {:cachex, "~> 3.6.0"},
       {:ueberauth, "~> 0.10.5"},
       {:ueberauth_github, "~> 0.8.3"},
       {:premailex, "~> 0.3.18"},

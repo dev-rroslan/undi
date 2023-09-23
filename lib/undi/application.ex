@@ -21,6 +21,8 @@ defmodule Undi.Application do
       # Start a worker by calling: Undi.Worker.start_link(arg)
       # {Undi.Worker, arg}
       {Oban, oban_config()},
+      {Cachex, name: :general_cache}, # You can add additional caches with different names
+
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

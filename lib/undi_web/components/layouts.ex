@@ -13,4 +13,11 @@ defmodule UndiWeb.Layouts do
       ## Insert admin nav items below ##
     ]
   end
+
+  defp app_nav_items do
+    [
+      %{label: "Dashboard", icon: "hero-home", path: ~p"/"},
+      ## Insert app nav items below ##
+    ]
+  end
 end

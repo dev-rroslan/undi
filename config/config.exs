@@ -91,6 +91,7 @@ config :undi, Oban,
     {Oban.Plugins.Pruner, max_age: (3600 * 24)},
     {Oban.Plugins.Cron,
       crontab: [
+        {"0 9 * * *", Undi.Campaigns.ExecuteStepWorker},
        # {"0 2 * * *", Undi.Workers.DailyDigestWorker},
        # {"@reboot", Undi.Workers.StripeSyncWorker},
        # {"0 2 * * *", Undi.DailyReports.DailyReportWorker},
