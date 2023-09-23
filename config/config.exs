@@ -102,6 +102,21 @@ config :undi, Undi.Admins.Guardian,
   issuer: "undi",
   secret_key: System.get_env("GUARDIAN_SECRET_KEY_ADMINS") || "0aMB+PerCYQ7dc51X7yGfHS9sYfVTEC6SZmIZ4UH1j3UbJOsf/1hFyU1NB9XXerD"
 
+config :stripity_stripe,
+  api_key: System.get_env("STRIPE_SECRET"),
+  public_key: System.get_env("STRIPE_PUBLIC"),
+  webhook_signing_key: System.get_env("STRIPE_WEBHOOK_SIGNING_KEY")
+
+
+config :waffle,
+  storage: Waffle.Storage.S3, # or Waffle.Storage.Local
+  bucket: System.get_env("AWS_BUCKET") # if using S3
+
+config :ex_aws,
+  json_codec: Jason,
+  access_key_id: System.get_env("AWS_ACCESS_KEY_ID"),
+  secret_access_key: System.get_env("AWS_SECRET_ACCESS_KEY"),
+  region: System.get_env("AWS_REGION")
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

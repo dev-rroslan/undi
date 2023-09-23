@@ -39,6 +39,9 @@ defmodule UndiWeb.Endpoint do
   plug Plug.RequestId
   plug Plug.Telemetry, event_prefix: [:phoenix, :endpoint]
 
+  # BEFORE plug Plug.Parsers
+  plug UndiWeb.Plugs.StripePayload
+
   plug Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],
     pass: ["*/*"],

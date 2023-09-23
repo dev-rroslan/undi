@@ -34,6 +34,17 @@ defmodule Undi.MixProject do
     [
       
       # ADDITIONAL PACKAGES
+      {:waffle, "~> 1.1.7"},
+      {:waffle_ecto, "~> 0.0.12"},
+
+      # If using S3:
+      {:ex_aws, "~> 2.5.0"},
+      {:ex_aws_s3, "~> 2.4.0"},
+      {:hackney, "~> 1.19.1"},
+      {:sweet_xml, "~> 0.7.4"},
+      {:eqrcode, "~> 0.1.10"},
+      {:nimble_totp, "~> 1.0.0"},
+      {:stripity_stripe, "~> 2.17.3"},
       {:cachex, "~> 3.6.0"},
       {:ueberauth, "~> 0.10.5"},
       {:ueberauth_github, "~> 0.8.3"},

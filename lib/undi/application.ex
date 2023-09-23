@@ -20,6 +20,7 @@ defmodule Undi.Application do
       UndiWeb.Endpoint,
       # Start a worker by calling: Undi.Worker.start_link(arg)
       # {Undi.Worker, arg}
+      webhook_processor_service(),
       {Oban, oban_config()},
       {Cachex, name: :general_cache}, # You can add additional caches with different names
 
@@ -41,5 +42,12 @@ defmodule Undi.Application do
 
   defp oban_config do
     Application.fetch_env!(:undi, Oban)
+  end
+
+  # Dont start the genserver in test mode
+  defp webhook_processor_service do
+    if Application.get_env(:undi, :env) == :test,
+      do: Undi.Billing.Stripe.WebhookProcessor.Stub,
+      else: Undi.Billing.Stripe.WebhookProcessor
   end
 end

@@ -11,6 +11,7 @@ defmodule Undi.Accounts.Membership do
 
     belongs_to :member, Undi.Accounts.Member, foreign_key: :user_id
     belongs_to :account, Undi.Accounts.Account
+    field :billing_customer, :boolean, default: false
 
     timestamps()
   end
@@ -18,7 +19,7 @@ defmodule Undi.Accounts.Membership do
   @doc false
   def changeset(member, attrs) do
     member
-    |> cast(attrs, [:role])
+    |> cast(attrs, [:role, :billing_customer])
     |> validate_required([:role])
     |> unique_constraint(:member, name: :account_memberships_account_id_user_id_index)
   end

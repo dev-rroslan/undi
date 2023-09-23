@@ -21,6 +21,7 @@ import "phoenix_html"
 import {Socket} from "phoenix"
 import {LiveSocket} from "phoenix_live_view"
 import topbar from "../vendor/topbar"
+import {InitStripeCheckout} from "./init_stripe_checkout"
 import {InitChart} from "./init_chart"
 
 // Uncomment if you use alpinejs
@@ -29,6 +30,7 @@ import {InitChart} from "./init_chart"
 // Alpine.start()
 
 let Hooks = {}
+Hooks.InitStripeCheckout = InitStripeCheckout
 Hooks.Focus = {
   mounted() {
     this.el.focus()
@@ -70,4 +72,20 @@ window.addEventListener("layout:toggle-sidebar", event => {
   } else {
     liveSocket.execJS(sidebar, sidebar.getAttribute("data-hide"))
   }
+})
+
+/*
+  This is used to execute LiveView js triggered from the backend.
+
+  push_event(socket, "js-exec", %{
+    to: "#my_spinner",
+    attr: "data-ok-done"
+  })
+
+  <div data-ok-done={JS.hide(id: @id)}>
+*/
+window.addEventListener("phx:js-exec", ({detail}) => {
+  document.querySelectorAll(detail.to).forEach(el => {
+    liveSocket.execJS(el, el.getAttribute(detail.attr))
+  })
 })

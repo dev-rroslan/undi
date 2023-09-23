@@ -26,6 +26,14 @@ defmodule UndiWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+    # live "/pricing", PricingLive.Index, :index
+    get "/return_from_stripe", StripeReturnController, :new
+  end
+
+  scope "/webhooks", UndiWeb do
+    pipe_through :api
+
+    post "/stripe", StripeWebhookController, :create
   end
 
   # Other scopes may use custom stacks.
@@ -69,12 +77,17 @@ defmodule UndiWeb.Router do
   scope "/", UndiWeb do
     pipe_through [:browser, :require_authenticated_user]
 
+    post "/create-customer-portal-session", StripeCustomerPortalSession, :create
+
     live_session :require_authenticated_user,
       on_mount: [{UndiWeb.UserAuth, :ensure_authenticated}] do
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
       live "/accounts", AccountLive.Index, :index
       live "/accounts/:account_id/members", MemberLive.Index, :index
+      live "/subscriptions/new", SubscriptionLive.New, :new
+      live "/billing", BillingLive.Index, :index
+
     end
   end
 
@@ -150,6 +163,34 @@ defmodule UndiWeb.Router do
       live "/admins/:id/show/edit", AdminLive.Show, :edit
 
       live "/developers", DeveloperLive.Index, :index
+
+      ## BILLING
+      # live "/customers", CustomerLive.Index, :index
+      # live "/customers/:id", CustomerLive.Show, :show
+
+      # live "/products", ProductLive.Index, :index
+      # live "/products/:id/edit", ProductLive.Index, :edit
+      # live "/products/:id", ProductLive.Show, :show
+      # live "/products/:id/show/edit", ProductLive.Show, :edit
+
+      # live "/products/:product_id/plans", PlanLive.Index, :index
+      # live "/products/:product_id/plans/:id", PlanLive.Show, :show
+
+      live "/subscriptions", SubscriptionLive.Index, :index
+      live "/subscriptions/:id", SubscriptionLive.Show, :show
+
+      # live "/invoices", InvoiceLive.Index, :index
     end
+  end
+
+  scope "/", UndiWeb do
+    pipe_through [:browser, :session_layout]
+
+    live_session :require_additional_actions,
+      on_mount: [{UndiWeb.UserAuth, :ensure_authenticated}] do
+      live "/users/two_factor", UserTwoFactorLive, :new
+    end
+
+    get "/users/two_factor/:token", UserTwoFactorController, :new
   end
 end

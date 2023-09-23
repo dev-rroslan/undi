@@ -157,3 +157,24 @@
     </main>
   </div>
 </div>
+
+<%= live_render(
+  (assigns[:conn] || assigns[:socket]),
+  UndiWeb.Live.CommandPaletteLive,
+  id: "command-palette-lv",
+  session: %{"context" => "app"}) %>
+
+<script src="https://unpkg.com/hotkeys-js/dist/hotkeys.min.js"></script>
+<script type="text/javascript">
+  hotkeys('command+k, ctrl+k', (event, handler) => {
+    event.preventDefault()
+    const el = document.querySelector('#command-palette')
+    liveSocket.execJS(el, el.dataset.show)
+  });
+  window.addEventListener('show', event => {
+    event.preventDefault()
+    const el = event.target
+    console.log(el)
+    liveSocket.execJS(el, el.dataset.show)
+  })
+</script>

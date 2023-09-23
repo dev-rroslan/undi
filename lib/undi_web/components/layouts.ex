@@ -11,6 +11,7 @@ defmodule UndiWeb.Layouts do
       %{label: "Admins", icon: "hero-identification", path: ~p"/admin/admins"},
       %{label: "Developers", icon: "hero-beaker", path: ~p"/admin/developers"},
       ## Insert admin nav items below ##
+      %{label: "Subscriptions", icon: "hero-credit-card", path: ~p"/admin/subscriptions"},
     ]
   end
 
