@@ -53,6 +53,7 @@ if config_env() == :prod do
 
   config :undi, UndiWeb.Endpoint,
     url: [host: host, port: 443, scheme: "https"],
+    check_origin: ["https://undi.online", "https://undi.fly.dev"],
     http: [
       # Enable IPv6 and bind on all interfaces.
       # Set it to  {0, 0, 0, 0, 0, 0, 0, 1} for local network only access.
@@ -105,7 +106,9 @@ if config_env() == :prod do
   #       adapter: Swoosh.Adapters.Mailgun,
   #       api_key: System.get_env("MAILGUN_API_KEY"),
   #       domain: System.get_env("MAILGUN_DOMAIN")
-  #
+  config :undi, Undi.Mailer,
+    adapter: Swoosh.Adapters.Sendinblue,
+    api_key: System.get_env("SENDINBLUE_API_KEY")
   # For this example you need include a HTTP client required by Swoosh API client.
   # Swoosh supports Hackney and Finch out of the box:
   #
